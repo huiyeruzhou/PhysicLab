@@ -33,8 +33,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
     def LoadExcelButtonOnClicked(self):
         fileName, fileType = QtWidgets.QFileDialog.getOpenFileName(self, "选取文件", os.getcwd(),
                                                                    "Excel Files(*.xls;*.xlsx;*.xlsm;*.xlsb;*.odf);;All Files(*)")
-        self.read_excel(fileName)
-        pass
+        if fileName is "":
+            return
+        try:
+            self.read_excel(fileName)
+        except Exception as e:
+            self.critical(e)
+
+    def critical(self, e):
+        QMessageBox.critical(self, '错误', print(e), QMessageBox.Yes, QMessageBox.Yes)
 
     def read_excel(self, path):
         # 打开文件
@@ -97,7 +104,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
     def newFigButtonOnClicked(self):
         # QInputDialog.accept()
         self.newFigWindow.show()
-
     def addLineButtonOnClicked(self):
         if len(plt.get_fignums()) == 0:
             QMessageBox.warning(self, '无法添加线条', "请先新建图片", buttons=QMessageBox.Ok,
