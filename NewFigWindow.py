@@ -1,10 +1,11 @@
+import matplotlib.pyplot as plt
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
-import NewFigWindowUI
+from UI.NewFigWindowUI import Ui_NewFigWindow
 from m_plot import new_plot
 
 
-class NewFigWindow(QMainWindow, NewFigWindowUI.Ui_NewFigWindow):
+class NewFigWindow(QMainWindow, Ui_NewFigWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -26,6 +27,13 @@ class NewFigWindow(QMainWindow, NewFigWindowUI.Ui_NewFigWindow):
             ret = QMessageBox.Yes
         if ret != QMessageBox.Yes:
             return
-        new_plot(self.xlaLlineEdit.text(), self.ylaLineEdit.text(), self.titLineEdit.text())
+        try:
+            new_plot(self.xlaLlineEdit.text(), self.ylaLineEdit.text(), self.titLineEdit.text())
+            ###必须强制进行一次绘图，才能发现存在的问题
+            plt.gcf().canvas.draw()
+        except ValueError as e:
+            QMessageBox.critical(self, '非法输入', str(e), QMessageBox.Yes, QMessageBox.Yes)
+            return
+
         QMessageBox.information(self, '新建图片', '新建图片成功', QMessageBox.Yes, QMessageBox.Yes)
         self.close()

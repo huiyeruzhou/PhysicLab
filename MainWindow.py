@@ -1,18 +1,14 @@
 import os
 import sys
 from itertools import product
-
-from matplotlib.backends.backend_qt5agg import (
-    FigureCanvasQTAgg as FigureCanvas)
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QStringListModel
 
-import PlotWindowUI
+from UI.MainWindowUI import Ui_MainWindow
+from UI.PlotWindowUI import Ui_PlotWindow
 from NewFigWindow import NewFigWindow
 from m_plot import *
-from MainWindowUI import *
-
 
 class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
     def __init__(self):
@@ -81,11 +77,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
         self.colVarModel = QStringListModel()
         self.setColVarTabelView()
         self.show()
-        self.showFigWindow: QMainWindow = QMainWindow()
-        self.showFigWindowUi = PlotWindowUI.Ui_MainWindow()
-        self.showFigWindowUi.setupUi(self.showFigWindow)
+
+        self.plotWindow: QMainWindow = QMainWindow()
+        Ui_PlotWindow().setupUi(self.plotWindow)
 
         self.newFigWindow = NewFigWindow()
+        self.newFigWindow.setWindowModality(Qt.ApplicationModal)
 
     # def getInt(self):
     #     num, ok = QInputDialog.getInt(self, 'Integer input dialog', '输入数字')
@@ -159,15 +156,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
         plt.legend()
         plt.gcf().set_size_inches(6.4, 4.8)
         plt.gcf().dpi = 100
-        self.showFigWindow.canvas = FigureCanvas(plt.gcf())
-        # 将绘制好的图像设置为中心 Widget
-        # self.window.addToolBar(NavigationToolbar(self.window.canvas, self.window))
-        # self.window.vlayout = QVBoxLayout()
-        # self.window.vlayout.addWidget(self.window.canvas)  # 画布添加到窗口布局中
-        # self.window.setLayout(self.window.vlayout)
-        self.showFigWindow.setCentralWidget(self.showFigWindow.canvas)
-        # 创建figure对象
-        self.showFigWindow.show()
+        self.plotWindow.show()
 
     def colVarTabelViewOnClicked(self):
         pass
@@ -279,4 +268,9 @@ if __name__ == "__main__":
     path = 'qaq.png'
     app.setWindowIcon(QIcon(path))  # MAC 下 程序图标是显示在程序坞中的， 切记；
     window = MainWindow()
-    sys.exit(app.exec_())
+    try:
+        ret = app.exec_()
+    except Exception as e:
+        print(e)
+    finally:
+        sys.exit(ret)

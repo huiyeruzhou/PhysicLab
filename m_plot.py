@@ -143,9 +143,12 @@ grid_on: 是否要打开网格,默认为false
 def new_plot(xla, yla, tit, grid_on=False):
     reset_color()
     plt.figure(linewidth=0.5)
-    plt.xlabel(xla)
-    plt.ylabel(yla)
-    plt.title(tit)
+    try:
+        plt.xlabel(xla)
+        plt.ylabel(yla)
+        plt.title(tit)
+    except ValueError as e:
+        print(e)
     if (grid_on):
         plt.minorticks_on()
         plt.grid(which='minor', linestyle=(0, (1, 2)), color='#DFDFDF', zorder=zorder_map['grid'])
