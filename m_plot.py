@@ -71,7 +71,7 @@ scatter: 是否绘制散点,默认True
 """
 
 
-def m_plot(a, b, leg, scatter=True):
+def m_plot(a, b, leg,marker="o", scatter=True):
     # 在输入区间内均匀选取100个点为插值x轴
     x = np.linspace(a[0], a[-1], 100)
     # 用自带的线条插值法计算y轴值
@@ -80,7 +80,7 @@ def m_plot(a, b, leg, scatter=True):
     plt.plot(x, y, label=leg, zorder=zorder_map['line'], color=get_color())
     # 绘制数据点,注意去掉图例
     if scatter:
-        plt.scatter(a, b, 100, marker='.', label='', zorder=zorder_map['scatter'], color=get_color())
+        plt.scatter(a, b, 100, marker=marker, label='', zorder=zorder_map['scatter'], color=get_color())
 
 
 """
@@ -96,7 +96,7 @@ curve: 是否插入更多x值以生成平滑曲线,默认True
 """
 
 
-def m_plot2(a, b, leg, c=1, scatter=True, curve=True):
+def m_plot2(a, b, leg, c=1, marker="o", scatter=True, curve=True):
     # 以ab为输入数据进行c次拟合
     n = np.polyfit(a, b, c)
     # 输出拟合结果
@@ -120,7 +120,7 @@ def m_plot2(a, b, leg, c=1, scatter=True, curve=True):
     plt.plot(x, y, label=leg, zorder=zorder_map['line'], color=get_color())
     # 绘制散点
     if scatter:
-        plt.scatter(a, b, 100, marker='.', label='', zorder=zorder_map['scatter'], color=get_color())
+        plt.scatter(a, b, 100, marker=marker, label='', zorder=zorder_map['scatter'], color=get_color())
 
 
 """

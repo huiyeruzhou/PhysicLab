@@ -3,37 +3,15 @@ import sys
 from itertools import product
 
 from matplotlib.backends.backend_qt5agg import (
-    FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
+    FigureCanvasQTAgg as FigureCanvas)
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QStringListModel
 
-import window2
-import window3
+import PlotWindowUI
+from NewFigWindow import NewFigWindow
 from m_plot import *
-from qaqui import *
-
-class NewFigWindow(QMainWindow, window3.Ui_NewFigWindow):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-
-    def doNewFigButtonOnClicked(self):
-        if self.xlaLlineEdit.text() == "":
-            ret = QMessageBox.warning(self, '确认新建图片', "确认新建图片吗? 还没有填写x轴单位", buttons=QMessageBox.Yes |QMessageBox.No,
-                                defaultButton=QMessageBox.No)
-        elif self.ylaLineEdit.text() == "":
-            ret = QMessageBox.warning(self, '确认新建图片', "确认新建图片吗? 还没有填写y轴单位", buttons=QMessageBox.Yes |QMessageBox.No,
-                                defaultButton=QMessageBox.No)
-        elif self.titLineEdit.text() == "":
-            ret = QMessageBox.warning(self, '确认新建图片', "确认新建图片吗? 还没有填写图片标题", buttons=QMessageBox.Yes |QMessageBox.No,
-                                defaultButton=QMessageBox.No)
-        else:
-            ret = QMessageBox.Yes
-        if ret != QMessageBox.Yes:
-            return
-        new_plot(self.xlaLlineEdit.text(), self.ylaLineEdit.text(), self.titLineEdit.text())
-        QMessageBox.information(self, '新建图片', '新建图片成功', QMessageBox.Yes, QMessageBox.Yes)
+from MainWindowUI import *
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
@@ -104,7 +82,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
         self.setColVarTabelView()
         self.show()
         self.showFigWindow: QMainWindow = QMainWindow()
-        self.showFigWindowUi = window2.Ui_MainWindow()
+        self.showFigWindowUi = PlotWindowUI.Ui_MainWindow()
         self.showFigWindowUi.setupUi(self.showFigWindow)
 
         self.newFigWindow = NewFigWindow()
@@ -122,7 +100,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
     def newFigButtonOnClicked(self):
         # QInputDialog.accept()
         self.newFigWindow.show()
-
 
     def addLineButtonOnClicked(self):
         if len(plt.get_fignums()) == 0:
@@ -161,8 +138,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
             x = line_data[:, 0]
             y = line_data[:, 1]
         leg = self.LegendEdit.text()
+
+        marker_dict = {"圆圈（默认）": "o", "X型": "x", "朝上的三角": "^", "不加散点": ""}
         try:
-            m_plot(x, y, leg)
+            m_plot(x, y, leg, marker=marker_dict[self.markerComboBox.currentText()])
         except ValueError as e:
             if str(e).startswith('The number of derivatives'):
                 QMessageBox.critical(self, '无法绘图', "插值绘图需要至少四个数据点, 请重新选择列向量",
@@ -219,8 +198,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
             QMessageBox.warning(self, '无法保存图片', "请先生成图片", buttons=QMessageBox.Ok,
                                 defaultButton=QMessageBox.Ok)
             return
-        filename,filetype = QFileDialog.getSaveFileName(self, "保存文件", os.getcwd(),
-                                                 "png files (*.png);;all files(*.*)")
+        filename, filetype = QFileDialog.getSaveFileName(self, "保存文件", os.getcwd(),
+                                                         "png files (*.png);;all files(*.*)")
         save_plot(filename)
 
     def showMenu(self):  # 右键展示菜单，pos 为鼠标位置

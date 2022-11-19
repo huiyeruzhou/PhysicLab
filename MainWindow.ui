@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>476</width>
-    <height>416</height>
+    <width>462</width>
+    <height>547</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PhysicLab</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -96,7 +96,7 @@
              <property name="font">
               <font>
                <family>微软雅黑</family>
-               <pointsize>9</pointsize>
+               <pointsize>8</pointsize>
               </font>
              </property>
              <property name="text">
@@ -180,6 +180,49 @@
              </property>
             </widget>
            </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <family>微软雅黑</family>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>选择散点图标记</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="markerComboBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <item>
+              <property name="text">
+               <string>圆圈（默认）</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>X型</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>朝上的三角</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>不加散点</string>
+              </property>
+             </item>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
@@ -234,7 +277,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>476</width>
+     <width>462</width>
      <height>22</height>
     </rect>
    </property>

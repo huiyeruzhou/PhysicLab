@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>307</width>
-    <height>160</height>
+    <height>165</height>
    </rect>
   </property>
   <property name="font">
@@ -31,7 +31,7 @@
          </font>
         </property>
         <property name="text">
-         <string>请输入x轴单位</string>
+         <string>x轴单位</string>
         </property>
        </widget>
       </item>
@@ -47,7 +47,7 @@
          </font>
         </property>
         <property name="text">
-         <string>请输入y轴单位</string>
+         <string>y轴单位</string>
         </property>
        </widget>
       </item>
@@ -63,7 +63,7 @@
          </font>
         </property>
         <property name="text">
-         <string>请输入图片名称</string>
+         <string>图片名称</string>
         </property>
        </widget>
       </item>
