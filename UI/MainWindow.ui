@@ -157,6 +157,7 @@
              <property name="font">
               <font>
                <family>微软雅黑 Light</family>
+               <pointsize>6</pointsize>
               </font>
              </property>
              <property name="text">
@@ -201,6 +202,11 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>7</pointsize>
+              </font>
+             </property>
              <item>
               <property name="text">
                <string>圆圈（默认）</string>
@@ -232,6 +238,7 @@
              <property name="font">
               <font>
                <family>微软雅黑 Light</family>
+               <pointsize>6</pointsize>
               </font>
              </property>
              <property name="text">
@@ -244,6 +251,7 @@
              <property name="font">
               <font>
                <family>微软雅黑 Light</family>
+               <pointsize>6</pointsize>
               </font>
              </property>
              <property name="text">
@@ -256,6 +264,7 @@
              <property name="font">
               <font>
                <family>微软雅黑 Light</family>
+               <pointsize>6</pointsize>
               </font>
              </property>
              <property name="text">

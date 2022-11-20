@@ -80,7 +80,7 @@ def m_plot(a, b, leg,marker="o", scatter=True):
     plt.plot(x, y, label=leg, zorder=zorder_map['line'], color=get_color())
     # 绘制数据点,注意去掉图例
     if scatter:
-        plt.scatter(a, b, 100, marker=marker, label='', zorder=zorder_map['scatter'], color=get_color())
+        plt.scatter(a, b, 20, marker=marker, label='', zorder=zorder_map['scatter'], color=get_color())
 
 
 """
@@ -190,7 +190,8 @@ if __name__ == "__main__":
     tit = to_latex(r'ln\theta-T') + '图'
     filename = r'阻尼一阻尼三'
 
-    new_plot(True)
+    new_plot(xla,yla,tit,True)
     x, y = get_line_xy(data, 0, 1)
     m_plot(x, y, leg='阻尼1')
-    save_plot(xla, yla, tit, filename)
+    plt.show()
+    # save_plot(xla, yla, tit, filename)

@@ -1,10 +1,13 @@
 import os
 import sys
 from itertools import product
+
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QStringListModel
 
+import PlotWindow
 from UI.MainWindowUI import Ui_MainWindow
 from UI.PlotWindowUI import Ui_PlotWindow
 from NewFigWindow import NewFigWindow
@@ -85,8 +88,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):  # 继承自 QWidget类
         self.setColVarTabelView()
         self.show()
 
-        self.plotWindow: QMainWindow = QMainWindow()
-        Ui_PlotWindow().setupUi(self.plotWindow)
+        self.plotWindow = PlotWindow.PlotWindow()
 
         self.newFigWindow = NewFigWindow()
         self.newFigWindow.setWindowModality(Qt.ApplicationModal)
