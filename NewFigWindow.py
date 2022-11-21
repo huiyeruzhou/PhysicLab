@@ -1,11 +1,12 @@
-import matplotlib.pyplot as plt
+from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
-
+from matplotlib.figure import Figure
 from UI.NewFigWindowUI import Ui_NewFigWindow
-from m_plot import new_plot
+from MatplotlibPlot import MatplotlibPlot
 
 
 class NewFigWindow(QMainWindow, Ui_NewFigWindow):
+    newFigCreated = pyqtSignal(MatplotlibPlot)
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -28,12 +29,14 @@ class NewFigWindow(QMainWindow, Ui_NewFigWindow):
         if ret != QMessageBox.Yes:
             return
         try:
-            new_plot(self.xlaLlineEdit.text(), self.ylaLineEdit.text(), self.titLineEdit.text())
+            plot = MatplotlibPlot(xla=self.xlaLlineEdit.text(), yla=self.ylaLineEdit.text(), tit=self.titLineEdit.text())
             ###必须强制进行一次绘图，才能发现存在的问题
-            plt.gcf().canvas.draw()
+            plot.fig.canvas.draw()
         except ValueError as e:
-            QMessageBox.critical(self, '非法输入', str(e), QMessageBox.Yes, QMessageBox.Yes)
+            QMessageBox.critical(self, '非法输入', '请检查输入的内容是否符合latex语法: ' + str(e), QMessageBox.Yes,
+                                 QMessageBox.Yes)
             return
 
         QMessageBox.information(self, '新建图片', '新建图片成功', QMessageBox.Yes, QMessageBox.Yes)
+        self.newFigCreated.emit(plot)
         self.close()
