@@ -3,6 +3,8 @@ import pandas as pd
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from scipy.interpolate import make_interp_spline
 import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib import axes
 from matplotlib.figure import Figure
 import matplotlib.colors as mcolors
 
@@ -30,11 +32,19 @@ class MatplotlibPlot(object):
     colors = list(mcolors.TABLEAU_COLORS.keys())
     color_index = 0
 
-    def __init__(self, width=None, height=None, dpi=None, xla="", yla="", tit="", grid_on=False):
+    def __init__(self, fig=None, width=None, height=None, dpi=None, xla="", yla="", tit="", grid_on=False):
         self.reset_color()
-        self.fig: Figure = Figure(width, height, dpi, linewidth=0.5)
-        self.canvas = FigureCanvasQTAgg(self.fig)
-        self.axes = self.fig.add_subplot(111)
+
+        if fig is None:
+            self.fig: Figure = Figure(width, height, dpi, linewidth=0.5)
+        else:
+            self.fig = fig
+
+        if self.fig.canvas is None:
+            self.canvas = FigureCanvasQTAgg(self.fig)
+        else:
+            self.canvas = self.fig.canvas
+        self.axes:axes.Axes = self.fig.add_subplot(111)
         self.axes.set_xlabel(xla)
         self.axes.set_ylabel(yla)
         self.axes.set_title(tit)
@@ -42,6 +52,10 @@ class MatplotlibPlot(object):
             self.fig.minorticks_on()
             self.fig.grid(which='minor', linestyle=(0, (1, 2)), color='#DFDFDF', zorder=zorder_map['grid'])
             self.fig.grid(which='major', color='#DFDFDF', zorder=zorder_map['grid'])
+        self.axes.xaxis.set_picker(True)
+        self.axes.yaxis.set_picker(True)
+        self.axes.xaxis.set_pickradius(200)
+        self.axes.yaxis.set_pickradius(200)
 
 
     """
@@ -164,17 +178,16 @@ def get_line_xy(data: pd.DataFrame, x_col: int, y_col: int):
 来试试吧.
 """
 
-# if __name__ == "__main__":
-#     xlsx_filename = r'./工作簿1.xlsx'
-#     data: pd.DataFrame = pd.read_excel(io=xlsx_filename)
-#
-#     xla = to_latex(r't/T')
-#     yla = to_latex(r'\theta / ^ \circ')
-#     tit = to_latex(r'ln\theta-T') + '图'
-#     filename = r'阻尼一阻尼三'
-#
-#     new_plot(xla, yla, tit, True)
-#     x, y = get_line_xy(data, 0, 1)
-#     m_plot(x, y, leg='阻尼1')
-#     plt.show()
-#     # save_plot(xla, yla, tit, filename)
+if __name__ == "__main__":
+    xlsx_filename = r'./工作簿1.xlsx'
+    data: pd.DataFrame = pd.read_excel(io=xlsx_filename)
+
+    filename = r'阻尼一阻尼三'
+    plot = MatplotlibPlot(fig=plt.figure())
+    plt.show()
+    x, y = get_line_xy(data, 0, 1)
+    plot.m_plot(x, y, leg='阻尼1')
+
+
+    # plot.fig.show()
+    # save_plot(xla, yla, tit, filename)

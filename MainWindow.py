@@ -17,13 +17,15 @@ from col_var import col_var, critical
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.plot = None
         self.setupUi(self)
+        self.plot = MatplotlibPlot(fig=self.canvas.canvas.figure)
+        self.show()
+        self.canvas.figChanged.emit()
         self.dataWindow = DataWindow()
         self.newFigWindow = NewFigWindow()
         self.newFigWindow.newFigCreated.connect(self.onNewFigCreated)
         self.newFigWindow.setWindowModality(Qt.ApplicationModal)
-        self.show()
+
 
     def onGetXButtonClicked(self):
         items = col_var.keys()
@@ -102,8 +104,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         self.plot.axes.legend()
-        self.plot.fig.set_size_inches(6.4, 4.8)
-        self.plot.fig.dpi = 100
         self.canvas.figChanged.emit()
 
     def onSaveFigButtonClicked(self):
@@ -119,6 +119,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.newFigWindow.show()
 
     def onFigChanged(self):
+        self.plot.fig.set_size_inches(6.4, 4.8)
+        self.plot.fig.dpi = 150
         self.canvas.canvas.resize(self.canvas.canvas.size() + QSize(1, 1))
         self.canvas.canvas.resize(self.canvas.canvas.size() - QSize(1, 1))
 
