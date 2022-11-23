@@ -295,7 +295,6 @@
    </layout>
    <zorder>addLineButton</zorder>
    <zorder>canvas</zorder>
-   <zorder></zorder>
    <zorder>loadExcelButton</zorder>
    <zorder>saveFigButton</zorder>
    <zorder>newFigButton</zorder>
@@ -316,7 +315,7 @@
   <customwidget>
    <class>MatplotlibWidget</class>
    <extends>QWidget</extends>
-   <header>UI.Widgets.MatplotlibWidget</header>
+   <header>app.View.Widgets.MatplotlibWidget</header>
    <container>1</container>
    <slots>
     <signal>figChanged()</signal>
@@ -324,128 +323,8 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>addLineButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onAddLineButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>252</x>
-     <y>567</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>159</x>
-     <y>536</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>newFigButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onNewFigButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>166</x>
-     <y>53</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>134</x>
-     <y>536</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>loadExcelButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onLoadExcelButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>62</x>
-     <y>538</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>0</x>
-     <y>443</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>getXButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onGetXButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>67</x>
-     <y>454</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-85</x>
-     <y>354</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>getYButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onGetYButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>70</x>
-     <y>483</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-76</x>
-     <y>386</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>canvas</sender>
-   <signal>figChanged()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onFigChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>157</x>
-     <y>206</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-117</x>
-     <y>192</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>saveFigButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onSaveFigButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>203</x>
-     <y>585</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>192</x>
-     <y>652</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <signal>newFigCreated(Figure)</signal>
-  <slot>onNewFigButtonClicked()</slot>
-  <slot>onAddLineButtonClicked()</slot>
-  <slot>onLoadExcelButtonClicked()</slot>
-  <slot>onGetXButtonClicked()</slot>
-  <slot>onGetYButtonClicked()</slot>
-  <slot>onFigChanged()</slot>
-  <slot>onSaveFigButtonClicked()</slot>
  </slots>
 </ui>

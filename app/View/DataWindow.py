@@ -1,27 +1,40 @@
-import os
 from itertools import product
 
+import pandas as pd
 from PyQt5.QtCore import Qt, QStringListModel
 from PyQt5.QtGui import QCursor
 from PyQt5.QtWidgets import (
-    QMainWindow, QMessageBox, QApplication, QAbstractItemView, QTableWidgetItem, QMenu,
-    QFileDialog)
+    QMainWindow, QMessageBox, QApplication, QAbstractItemView, QTableWidgetItem, QMenu)
 
-from UI.DataWindowUI import Ui_DataWindow
-from MatplotlibPlot import *
-from col_var import col_var
+from app.Controller.DataController import DataController
+from app.Model.MainModel import MainModel
+from app.View.DataWindowUI import Ui_DataWindow
+
 
 
 class DataWindow(QMainWindow, Ui_DataWindow):  # 继承自 QWidget类
-    def __init__(self):
+    def __init__(self, model:MainModel, controller:DataController):
         super().__init__()
         self.setupUi(self)
         self.data = None
-        self.initUI()  # 创建窗口
+        self._m = model
+        self._c = controller
 
+        self.clipboard = QApplication.clipboard()
+        self.tableWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
+
+        #管理表格邮件菜单
+        self.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.contextMenu = QMenu(self.tableWidget)
+        self.cpactionMenu = self.contextMenu.addAction('复制内容')
+        self.importColMenu = self.contextMenu.addAction('导入为列向量')
         self.cpactionMenu.triggered.connect(self.table_copy)
         self.importColMenu.triggered.connect(self.get_col_var)
-        self.colVarTableView.clicked.connect(self.colVarTabelViewOnClicked)
+
+        # 实例化列表模型，添加数据
+        self.colVarModel = QStringListModel()
+        self.setColVarTabelView()
+        self.colVarTableView.clicked.connect(self.onColVarTabelViewClicked)
 
     def read_excel(self, path):
         # 打开文件
@@ -52,19 +65,7 @@ class DataWindow(QMainWindow, Ui_DataWindow):  # 继承自 QWidget类
                 self.tableWidget.setItem(i, j, newItem)
         self.tableWidget.blockSignals(False)
 
-    def initUI(self):
-        self.clipboard = QApplication.clipboard()
-        self.tableWidget.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.contextMenu = QMenu(self.tableWidget)
-        self.cpactionMenu = self.contextMenu.addAction('复制内容')
-        self.importColMenu = self.contextMenu.addAction('导入为列向量')
-        self.tableWidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
-
-        # 实例化列表模型，添加数据
-        self.colVarModel = QStringListModel()
-        self.setColVarTabelView()
-
-    def colVarTabelViewOnClicked(self):
+    def onColVarTabelViewClicked(self, index):
         pass
 
 
@@ -82,14 +83,6 @@ class DataWindow(QMainWindow, Ui_DataWindow):  # 继承自 QWidget类
             QMessageBox.warning(self, '无法导入向量数据', "没有选择任何区域", buttons=QMessageBox.Ok,
                                 defaultButton=QMessageBox.Ok)
             return
-        for r in selectRect:  # 获取范围边界
-            top = r.topRow()
-            left = r.leftColumn()
-            bottom = r.bottomRow()
-            right = r.rightColumn()
-            for col in range(left, right + 1):
-                col_var[self.data.columns[col]] = self.data.iloc[top: bottom + 1, col]
-        print(col_var)
         self.setColVarTabelView()
 
     def table_update(self):
@@ -135,7 +128,7 @@ class DataWindow(QMainWindow, Ui_DataWindow):  # 继承自 QWidget类
         self.text = str()  # 字符串归零
 
     def setColVarTabelView(self):
-        self.colVarModel.setStringList(col_var)
+        self.colVarModel.setStringList(self._m.col_var)
         self.colVarTableView.setModel(self.colVarModel)
 
 

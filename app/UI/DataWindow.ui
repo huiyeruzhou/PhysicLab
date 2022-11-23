@@ -136,11 +136,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>colVarTableView</sender>
+   <signal>clicked(QModelIndex)</signal>
+   <receiver>DataWindow</receiver>
+   <slot>onColVarTabelViewClicked(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>479</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-198</x>
+     <y>440</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>LoadExcelButtonOnClicked()</slot>
   <slot>showMenu()</slot>
   <slot>table_update()</slot>
-  <slot>saveFigButtonOnClicked()</slot>
+  <slot>onColVarTabelViewClicked(QModelIndex)</slot>
  </slots>
 </ui>
